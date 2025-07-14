@@ -1,0 +1,304 @@
+/* static/style.css */
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background-image: url(images/background.jpg);
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Phone Container */
+.phone-container {
+  width: 360px;
+  height: 640px;
+  margin-top: 60px; /* Added margin to push down */
+  border-radius: 30px;
+  background: rgba(17, 17, 17, 0.9);
+  box-shadow: 0 0 0 8px #222, 0 0 30px rgba(0, 0, 0, 0.6),
+    0 0 0 12px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  position: relative;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Screen Area */
+.screen-area {
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  margin: 10px;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Status Bar */
+.status-bar {
+  height: 30px;
+  background: rgba(17, 17, 17, 0.9);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 20px 20px 0 0;
+}
+
+/* Fixed Thumbnail Area */
+.thumbnail-display {
+  height: 200px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+#video-thumbnail {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  display: none;
+  border-radius: 5px;
+}
+
+/* Video Title */
+.video-title {
+  color: white;
+  padding: 12px 15px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Progress Bar */
+.progress-container {
+  height: 15px;
+  background: rgba(51, 51, 51, 0.5);
+  margin: 10px 15px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #007aff, #00a8ff);
+  width: 0%;
+  transition: width 0.3s ease-out;
+}
+
+/* Input Area */
+.input-area {
+  margin: 15px;
+  margin-top: 5px;
+}
+
+.url-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  background: rgba(34, 34, 34, 0.8);
+  color: white;
+  outline: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.url-input::placeholder {
+  color: #aaa;
+}
+
+.format-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin: 40px 0;
+  color: white;
+  font-size: 14px;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.format-options label {
+  display: flex;
+  text-wrap: nowrap;
+  margin-top: 10px;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 15px;
+  background: rgba(34, 34, 34, 0.5);
+  transition: all 0.2s;
+}
+
+.format-options label:hover {
+  background: rgba(34, 34, 34, 0.8);
+}
+
+.format-options input[type="radio"] {
+  accent-color: #007aff;
+}
+
+/* Scrollable Downloads */
+.recent-downloads {
+  flex: 1;
+  overflow-y: auto;
+  background: transparent;
+  color: white;
+  padding: 5px;
+  scrollbar-width: thin;
+  scrollbar-color: #007aff #222;
+}
+
+.recent-downloads::-webkit-scrollbar {
+  width: 5px;
+}
+
+.recent-downloads::-webkit-scrollbar-thumb {
+  background-color: #007aff;
+  border-radius: 10px;
+}
+
+.download-item {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(51, 51, 51, 0.5);
+  display: flex;
+  align-items: center;
+  background: rgba(34, 34, 34, 0.4);
+  border-radius: 8px;
+  margin: 5px;
+  transition: all 0.2s;
+}
+
+.download-item:hover {
+  background: rgba(34, 34, 34, 0.7);
+}
+
+.download-item img {
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+  border-radius: 5px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.download-item .info {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.download-item .title {
+  font-size: 14px;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.download-item .action {
+  font-size: 13px;
+  color: #007aff;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 15px;
+  background: rgba(0, 122, 255, 0.1);
+  transition: all 0.2s;
+}
+
+.download-item .action:hover {
+  background: rgba(0, 122, 255, 0.2);
+}
+
+/* Empty State */
+.empty-state {
+  color: #777;
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 14px;
+}
+
+/* Download Button */
+.download-btn {
+  background: linear-gradient(135deg, #007aff, #0063cc);
+  color: white;
+  border: none;
+  padding: 12px;
+  margin: 15px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 10px rgba(0, 122, 255, 0.3);
+}
+
+.download-btn:disabled {
+  background: #555;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.download-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0063cc, #0052a3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
+}
+
+/* Error Message */
+.error-message {
+  color: #ff3b30;
+  padding: 8px 15px;
+  text-align: center;
+  font-size: 13px;
+  display: none;
+  background: rgba(255, 59, 48, 0.1);
+  border-radius: 8px;
+  margin: 0 15px 10px 15px;
+}
+.url-input {
+  width: calc(100% - 70px);
+  display: inline-block;
+  vertical-align: middle;
+}
+.clear-btn {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 12px 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  background: #555;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+  vertical-align: middle;
+}
+.clear-btn:hover {
+  background: #777;
+}
