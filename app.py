@@ -124,13 +124,7 @@ def get_info():
             with progress_lock:
                 current_progress[video_id] = 0
 
-            # return jsonify({
-            #     'status': 'success',
-            #     'title': info.get('title', 'YouTube Video'),
-            #     'thumbnail': thumbnail_url,  # direct YouTube link
-            #     'duration': info.get('duration', 0),
-            #     'video_id': video_id
-            # })
+        
             return jsonify({
                 'status': 'success',
                 'title': info.get('title', 'YouTube Video'),
