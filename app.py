@@ -66,9 +66,9 @@ def progress_hook(d, video_id):
             current_progress[video_id] = 100
             print("\nDownload completed!")
 
-def delete_file_later(path, delay=20):
+def delete_file_later(path, delay=10):
     """
-    Delete the file after a delay (default: 20 seconds).
+    Delete the file after a delay (default: 10 seconds).
     This gives the file enough time to be served to the user.
     """
     time.sleep(delay)
