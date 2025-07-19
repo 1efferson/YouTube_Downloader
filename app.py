@@ -26,6 +26,7 @@ if cookie_b64:
 else:
     # App will still run, but login-required videos may fail
     print("Warning: YT_COOKIES_B64 not set — downloads may fail for login-required videos.")
+    print("Checking if cookies file exists:", os.path.exists("/tmp/cookies.txt"))
 
 
 #  Network settings to avoid SSL errors and long delays
@@ -178,7 +179,8 @@ def download():
     try:
         ydl_opts = {
             'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' if download_type == 'mp4' else 'bestaudio/best',
-            'cookiefile': cookie_path,  # Use cookies for login-required videos
+            'cookiefile': '/tmp/cookies.txt',  # Use cookies for login-required videos
+            'outtmpl': 'downloads/%(title)s.%(ext)s',
             'quiet': True,
             'progress': True,
             'newline': True,
