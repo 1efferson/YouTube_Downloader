@@ -4,12 +4,10 @@ import os
 import subprocess
 import requests
 from datetime import datetime
-# import hashlib
 import time
 import threading
 from threading import Lock
 import json
-import sys
 import urllib3
 import socket
 import base64  # Needed to decode the cookies from base64
@@ -129,7 +127,7 @@ def get_info():
     video_url = request.form.get('url', '').strip()
 
     if not video_url:
-        return jsonify({'status': 'error', 'message': 'Please enter a YouTube URL'}), 400
+        return jsonify({'status': 'error', 'message': 'Please enter a valid YouTube video URL.'}), 400
 
     try:
         ydl_opts = {
@@ -163,8 +161,34 @@ def get_info():
                 'video_id': video_id
             })
 
+    except yt_dlp.utils.DownloadError as de:
+        error_msg = str(de)
+
+        if "Sign in to confirm you’re not a bot" in error_msg:
+            return jsonify({
+                'status': 'error',
+                'message': (
+                    "This video requires you to be signed in to confirm you're not a bot. "
+                )
+            }), 403
+        elif "This video is unavailable" in error_msg:
+            return jsonify({'status': 'error', 'message': 'This video is unavailable. Please check the URL and try again.'}), 404
+        elif "login" in error_msg.lower():
+            return jsonify({'status': 'error', 'message': 'This video requires you to be signed in. Please check your cookies or try a different video.'}), 403
+        elif "Video unavailable in your country" in error_msg:
+            return jsonify({'status': 'error', 'message': 'This video is not available in your region.'}), 403
+        elif "Unsupported URL" in error_msg:
+            return jsonify({'status': 'error', 'message': 'The provided URL is not a valid YouTube video link.'}), 400
+        else:
+            return jsonify({'status': 'error', 'message': 'Could not retrieve video info. Please try again later.'}), 500
+
+    except yt_dlp.utils.ExtractorError:
+        return jsonify({'status': 'error', 'message': 'Failed to extract video data. The video may be private or age-restricted.'}), 403
+
     except Exception as e:
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+        return jsonify({'status': 'error', 'message': f'Something went wrong: {str(e)}'}), 500
+
+
 
 #  Handle download request (MP4 or MP3) 
 @app.route('/download', methods=['GET'])
