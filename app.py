@@ -41,6 +41,7 @@ current_progress = {}
 os.makedirs('static/thumbnails', exist_ok=True)
 os.makedirs('downloads', exist_ok=True)
 
+
 #  Check if ffmpeg is installed on the system
 def is_ffmpeg_installed():
     try:
