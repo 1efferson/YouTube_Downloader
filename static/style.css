@@ -17,6 +17,28 @@ body {
   padding: 20px;
 }
 
+.buymeacoffee {
+  position: fixed;
+  bottom: 3%;
+  left: 10%;
+  display: inline-flex; 
+  align-items: center;  
+  padding: 10px 16px; 
+  border-radius: 8px; 
+  text-decoration: none; 
+  font-weight: bold; 
+  font-family: sans-serif;
+  color: #ffffff5c;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  
+}
+
+.buymeacoffee:hover {
+  opacity: 1;
+  color: #000;
+}
+
 /* Phone Container */
 .phone-container {
   width: 360px;
@@ -281,6 +303,8 @@ body {
   border-radius: 8px;
   margin: 0 15px 10px 15px;
 }
+
+
 .url-input {
   width: calc(100% - 70px);
   display: inline-block;
