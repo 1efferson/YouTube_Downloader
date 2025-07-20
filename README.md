@@ -62,7 +62,7 @@ To support restricted videos, run the app **locally**:
 
 ```
 bash
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/1efferson/YouTube_Downloader.git
 cd your-repo 
 ```
 
@@ -78,6 +78,14 @@ pip install -r requirements.txt
 python app.py
  ```
 
+
+### This is the url for the hosted website
+ ```
+https://youtube-downloader-97o6.onrender.com
+ ```
+
+***It is hosted on the free tier service, so if no user visits the site within every 15mins, 
+the site "sleeps" which takes about 30 seconds to restart so be patient when you open the website the first time***
 
 ### 👨‍💻 Contributors
 
