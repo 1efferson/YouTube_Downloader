@@ -6,9 +6,9 @@ A web-based YouTube video/audio downloader built with **Flask** and **yt-dlp**, 
 
 ## 📸 Demo Preview
 
-| Video Info Page                          | Download in Progress                      |
-|-----------------------------------------|-------------------------------------------|
-| ![Info Page](screenshots/info_page.png) | ![Progress Bar](screenshots/progress.png) |
+Video Info Page                      
+
+![YOUTUBE_DOWNLOADER](screenshots/yt.png) | 
 
 
 ## 🔧 Technical Overview
@@ -74,17 +74,20 @@ pip install -r requirements.txt
 ```
 
 ### 3.Run the App
- ```python app.py```
+ ```
+python app.py
+ ```
 
 
 ### 👨‍💻 Contributors
+
 Want to contribute?
 
 🍴 Fork and clone this repo
 
 🧪 Run locally
 
-🎯 Add support (e.g., enhanced progress tracking, format options)
+🎯 Add support (e.g., Add playlist download)
 
 📬 Open a pull request
  
