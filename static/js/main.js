@@ -340,7 +340,7 @@
           document.body.removeChild(a);
           window.URL.revokeObjectURL(downloadUrl);
           resetDownloadButton();
-          resetAfterDownload(); // <- add this line
+          resetAfterDownload();
         }, 100);
       }
 
@@ -441,7 +441,7 @@
         // Add to top of recent downloads
         container.prepend(item);
 
-        // Add this function to your JavaScript section
+        // reset after download
         function resetAfterDownload() {
           const progressBar = document.getElementById("download-progress");
           const urlInput = document.getElementById("url-input");

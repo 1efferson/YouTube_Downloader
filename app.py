@@ -10,39 +10,42 @@ from threading import Lock
 import json
 import urllib3
 import socket
-import base64  # Needed to decode the cookies from base64
+import base64  # Needed to decode the cookies from base64 (not used for public videos)
 
+# ==============================
+# Public-Only Mode Configuration
+# ==============================
 
-# Decode base64 cookie string and write to /tmp/cookies.txt at app startup
+# Skip setting cookies, because public videos don't need login.
+# Keeping this in case I switch back later.
+
 cookie_b64 = os.getenv("YT_COOKIES_B64")  # Render environment variable
 cookie_path = "/tmp/cookies.txt"  # Temporary file location to save decoded cookies
 
 if cookie_b64:
-    # Write the decoded content into a file so yt_dlp can use it
+    # Only needed login access needed — currently NOT used.
     with open(cookie_path, "wb") as f:
         f.write(base64.b64decode(cookie_b64))
 else:
-    # App will still run, but login-required videos may fail
-    print("Warning: YT_COOKIES_B64 not set — downloads may fail for login-required videos.")
-    print("Checking if cookies file exists:", os.path.exists("/tmp/cookies.txt"))
+    # You can safely ignore this warning in public-only mode
+    print("YT_COOKIES_B64 not set — skipping cookies setup for public videos.")
 
+# ==========================================
+# Network settings and Flask app setup
+# ==========================================
 
-#  Network settings to avoid SSL errors and long delays
 urllib3.disable_warnings()
 socket.setdefaulttimeout(30)
 
-# Flask app setup
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024  # 1GB limit
 progress_lock = Lock()
 current_progress = {}
 
-#  Create folders if not already present
+# Need to ensure required directories exist for storing downloaded files and thumbnails.
 os.makedirs('static/thumbnails', exist_ok=True)
 os.makedirs('downloads', exist_ok=True)
 
-
-#  Check if ffmpeg is installed on the system
 def is_ffmpeg_installed():
     try:
         subprocess.run(["ffmpeg", "-version"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -50,7 +53,6 @@ def is_ffmpeg_installed():
     except (subprocess.CalledProcessError, FileNotFoundError):
         return False
 
-#  Track download progress for live updates
 def progress_hook(d, video_id):
     if d['status'] == 'downloading':
         downloaded = d.get("downloaded_bytes", 0)
@@ -67,10 +69,6 @@ def progress_hook(d, video_id):
             print("\nDownload completed!")
 
 def delete_file_later(path, delay=10):
-    """
-    Delete the file after a delay (default: 10 seconds).
-    This gives the file enough time to be served to the user.
-    """
     time.sleep(delay)
     if os.path.exists(path):
         os.remove(path)
@@ -81,7 +79,6 @@ def home():
     current_time = datetime.now().strftime("%H:%M") 
     return render_template("index.html", time=current_time)
 
-#  Return live progress for video downloads
 @app.route('/progress/<video_id>')
 def progress(video_id):
     def generate():
@@ -109,7 +106,6 @@ def progress(video_id):
         }
     )
 
-#  Save the video thumbnail asynchronously
 def save_thumbnail_async(url, path):
     try:
         response = requests.get(url, headers={
@@ -122,7 +118,7 @@ def save_thumbnail_async(url, path):
     except:
         pass
 
-#  Get video info before downloading
+# Retrieve the YouTube video URL submitted from the frontend form.
 @app.route('/get_info', methods=['POST'])
 def get_info():
     video_url = request.form.get('url', '').strip()
@@ -133,7 +129,7 @@ def get_info():
     try:
         ydl_opts = {
             'quiet': True,
-            'cookiefile': cookie_path,  # Use cookies for login-required video access
+            # 'cookiefile': cookie_path, Removed: Not needed for public videos
             'extract_flat': False,
             'skip_download': True,
             'socket_timeout': 10,
@@ -169,13 +165,13 @@ def get_info():
             return jsonify({
                 'status': 'error',
                 'message': (
-                    "This video requires you to be signed in to confirm you're not a bot. "
+                    "This video requires login. Please try a different public video."
                 )
             }), 403
         elif "This video is unavailable" in error_msg:
             return jsonify({'status': 'error', 'message': 'This video is unavailable. Please check the URL and try again.'}), 404
         elif "login" in error_msg.lower():
-            return jsonify({'status': 'error', 'message': 'This video requires you to be signed in. Please check your cookies or try a different video.'}), 403
+            return jsonify({'status': 'error', 'message': 'This video requires you to be signed in. Please try a different public video.'}), 403
         elif "Video unavailable in your country" in error_msg:
             return jsonify({'status': 'error', 'message': 'This video is not available in your region.'}), 403
         elif "Unsupported URL" in error_msg:
@@ -188,10 +184,9 @@ def get_info():
 
     except Exception as e:
         return jsonify({'status': 'error', 'message': f'Something went wrong: {str(e)}'}), 500
-
-
-
+    
 #  Handle download request (MP4 or MP3) 
+
 @app.route('/download', methods=['GET'])
 def download():
     video_url = request.args.get('url')
@@ -204,8 +199,10 @@ def download():
     try:
         ydl_opts = {
             'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' if download_type == 'mp4' else 'bestaudio/best',
-            'cookiefile': '/tmp/cookies.txt',  # Use cookies for login-required videos
-            'outtmpl': 'downloads/%(title)s.%(ext)s',
+
+            # 'cookiefile': cookie_path, Removed: Not needed for public video downloads
+
+            'outtmpl': f'downloads/%(id)s.%(ext)s',
             'quiet': True,
             'progress': True,
             'newline': True,
@@ -218,7 +215,6 @@ def download():
             'skip_unavailable_fragments': True,
             'no_warnings': False,
             'ignoreerrors': False,
-            'outtmpl': f'downloads/%(id)s.%(ext)s',
             'http_headers': {
                 'User-Agent': 'Mozilla/5.0',
                 'Accept-Language': 'en-US,en;q=0.9',
@@ -248,7 +244,6 @@ def download():
             info = ydl.extract_info(video_url, download=False)
             filename = ydl.prepare_filename(info)
 
-            # Adjust filename if converting to mp3
             if download_type == 'mp3':
                 filename = filename.replace('.webm', '.mp3').replace('.m4a', '.mp3')
 
@@ -258,13 +253,10 @@ def download():
             with progress_lock:
                 current_progress[video_id] = 100
 
-            # Get the full path to the downloaded file
             filepath = os.path.join('downloads', os.path.basename(filename))
 
-            # Schedule file deletion after sending it to the user
             threading.Thread(target=delete_file_later, args=(filepath,)).start()
 
-            # Serve file to user as a download
             return send_from_directory(
                 'downloads',
                 os.path.basename(filename),
@@ -280,7 +272,7 @@ def download():
         error_message = str(e).lower()
 
         if "login required" in error_message or "sign in" in error_message:
-            user_message = "This video requires login. Please try a different link."
+            user_message = "This video requires login. Please try a different public video."
         elif "private" in error_message:
             user_message = "This video is private and cannot be downloaded."
         elif "unavailable" in error_message:
@@ -293,6 +285,5 @@ def download():
         print(f"[ERROR] {str(e)}")
         return jsonify({'status': 'error', 'message': user_message}), 500
 
-# Run the app
 if __name__ == '__main__':
     app.run(debug=True)
