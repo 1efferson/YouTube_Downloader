@@ -8,7 +8,7 @@ A web-based YouTube video/audio downloader built with **Flask** and **yt-dlp**, 
 
 Video Info Page                      
 
-![YouTube Downloader Screenshot](static/screenshot/yt.png)
+![YouTube Downloader Screenshot](static/screenshots/yt.png)
 
 
 ## 🔧 Technical Overview
