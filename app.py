@@ -10,7 +10,7 @@ from threading import Lock
 import json
 import urllib3
 import socket
-import base64  # Needed to decode the cookies from base64 (not used for public videos)
+import base64 
 
 # ==============================
 # Public-Only Mode Configuration
@@ -20,7 +20,7 @@ import base64  # Needed to decode the cookies from base64 (not used for public v
 # Keeping this in case I switch back later.
 
 cookie_b64 = os.getenv("YT_COOKIES_B64")  # Render environment variable
-cookie_path = "/tmp/cookies.txt"  # Temporary file location to save decoded cookies
+cookie_path = "/tmp/cookies.txt" 
 
 if cookie_b64:
     # Only needed login access needed — currently NOT used.

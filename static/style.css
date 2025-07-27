@@ -46,6 +46,8 @@ body {
   margin-top: 60px; /* Added margin to push down */
   border-radius: 30px;
   background: rgba(17, 17, 17, 0.9);
+
+   /* box-shadow (X-offset Y-offset blur-radius spread-radius color) */
   box-shadow: 0 0 0 8px #222, 0 0 30px rgba(0, 0, 0, 0.6),
     0 0 0 12px rgba(255, 255, 255, 0.1);
   overflow: hidden;
@@ -117,24 +119,31 @@ body {
 .progress-container {
   height: 15px;
   background: rgba(51, 51, 51, 0.5);
-  margin: 10px 15px;
+  margin: 8px;
   border-radius: 3px;
   overflow: hidden;
+  position: relative;
 }
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #007aff, #00a8ff);
+  background: linear-gradient(90deg,rgb(10, 10, 10), #007aff, #00a8ff,rgb(10, 10, 10));
   width: 0%;
   transition: width 0.3s ease-out;
+  display: flex;
+  justify-content: center;  
+  align-items: center;       
+  color: white;
+  font-size: 15px;
 }
+
 
 /* Input Area */
 .input-area {
   margin: 15px;
   margin-top: 5px;
 }
-
+ 
 .url-input {
   width: 100%;
   padding: 12px 15px;
