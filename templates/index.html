@@ -15,82 +15,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
-    <!-- Input Area -->
-    <div class="input-area">
-      <div class="format-options">
-        <label
-          ><input type="radio" name="format" value="mp4" checked /> MP4
-          (Video)</label
-        >
-        <label
-          ><input type="radio" name="format" value="mp3" /> MP3 (Audio)</label
-        >
-      </div>
-    </div>
-
-    <!-- Phone Container -->
-    <div class="phone-container">
-      <div class="screen-area">
-        <!-- Status Bar -->
-        <div class="status-bar">
-          <span>{{ time }}</span>
-          <span>▲●●</span>
+    <div class="page-wrapper">
+      <!-- Input Area -->
+      <div class="input-area">
+        <div class="format-options">
+          <label
+            ><input type="radio" name="format" value="mp4" checked /> MP4
+            (Video)</label
+          >
+          <label
+            ><input type="radio" name="format" value="mp3" /> MP3 (Audio)</label
+          >
         </div>
+      </div>
 
-        <!-- Video Info -->
-        <div class="video-info">
-          <div class="thumbnail-display">
-            <img
-              id="video-thumbnail"
-              src=""
-              alt="Video thumbnail"
-              style="width: 100%; display: none"
-            />
+      <!-- Phone Container -->
+      <div class="phone-container">
+        <div class="screen-area">
+          <!-- Status Bar -->
+          <div class="status-bar">
+            <span>{{ time }}</span>
+            <span>▲●●</span>
           </div>
-          <div id="video-title" class="video-title"></div>
+
+          <!-- Video Info -->
+          <div class="video-info">
+            <div class="thumbnail-display">
+              <img
+                id="video-thumbnail"
+                src=""
+                alt="Video thumbnail"
+                style="width: 100%; display: none"
+              />
+            </div>
+            <div id="video-title" class="video-title"></div>
+          </div>
+
+          <!-- Error Message -->
+          <div
+            id="error-message"
+            class="error-message"
+            style="display: none"
+          ></div>
+
+          <!-- Progress Bar -->
+          <div class="progress-container">
+            <div class="progress-bar" id="download-progress"></div>
+          </div>
+
+          <!-- URL Input and Clear Button -->
+          <div class="input-area">
+            <input
+              type="text"
+              class="url-input"
+              id="url-input"
+              placeholder="Enter YouTube URL"
+            />
+            <button class="clear-btn" id="clear-btn">Clear</button>
+          </div>
+
+          <!-- Recent Downloads -->
+          <div class="recent-downloads" id="recent-downloads">
+            <div class="empty-state">
+              Your downloaded videos will appear here
+            </div>
+          </div>
+
+          <button class="download-btn" id="download-btn" disabled>
+            Download
+          </button>
         </div>
-
-        <!-- Error Message -->
-        <div
-          id="error-message"
-          class="error-message"
-          style="display: none"
-        ></div>
-
-        <!-- Progress Bar -->
-        <div class="progress-container">
-          <div class="progress-bar" id="download-progress"></div>
-        </div>
-
-        <!-- URL Input and Clear Button -->
-        <div class="input-area">
-          <input
-            type="text"
-            class="url-input"
-            id="url-input"
-            placeholder="Enter YouTube URL"
-          />
-          <button class="clear-btn" id="clear-btn">Clear</button>
-        </div>
-
-        <!-- Recent Downloads -->
-        <div class="recent-downloads" id="recent-downloads">
-          <div class="empty-state">Your downloaded videos will appear here</div>
-        </div>
-
-        <button class="download-btn" id="download-btn" disabled>
-          Download
-        </button>
       </div>
-    </div>
 
       <footer>
-      <div>
+        <div>
           <!-- Buy Me a Coffee Button -->
-            <a class= "buymeacoffee" href="https://coff.ee/JephDean" target="_blank">
-              <i class="fas fa-mug-hot" style="margin-right: 4px; margin-bottom:4px;"></i> enjoying my work?
-            </a>
+          <a
+            class="buymeacoffee"
+            href="https://coff.ee/JephDean"
+            target="_blank"
+          >
+            <i
+              class="fas fa-mug-hot"
+              style="margin-right: 4px; margin-bottom: 4px"
+            ></i>
+            enjoying my work?
+          </a>
         </div>
-    </footer>
+      </footer>
+    </div>
   </body>
 </html>

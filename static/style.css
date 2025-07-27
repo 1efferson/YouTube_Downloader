@@ -17,37 +17,21 @@ body {
   padding: 20px;
 }
 
-.buymeacoffee {
-  position: fixed;
-  bottom: 3%;
-  left: 10%;
-  display: inline-flex; 
-  align-items: center;  
-  padding: 10px 16px; 
-  border-radius: 8px; 
-  text-decoration: none; 
-  font-weight: bold; 
-  font-family: sans-serif;
-  color: #ffffff5c;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
-  
-}
-
-.buymeacoffee:hover {
-  opacity: 1;
-  color: #000;
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 /* Phone Container */
 .phone-container {
   width: 360px;
   height: 640px;
-  margin-top: 60px; /* Added margin to push down */
   border-radius: 30px;
   background: rgba(17, 17, 17, 0.9);
 
-   /* box-shadow (X-offset Y-offset blur-radius spread-radius color) */
+/*box-shadow (X-offset Y-offset blur-radius spread-radius color) */
   box-shadow: 0 0 0 8px #222, 0 0 30px rgba(0, 0, 0, 0.6),
     0 0 0 12px rgba(255, 255, 255, 0.1);
   overflow: hidden;
@@ -165,14 +149,15 @@ body {
   justify-content: center;
   align-items: center;
   gap: 5px;
-  margin: 40px 0;
+  margin: 10px;
   color: rgb(215, 204, 204);
   font-size: 14px;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%,-50%);
 }
+
 
 .format-options label {
   display: flex;
@@ -334,4 +319,26 @@ body {
 }
 .clear-btn:hover {
   background: #777;
+}
+
+.buymeacoffee {
+  position: sticky;
+ 
+  
+  display: inline-flex; 
+  align-items: center;  
+  margin: 10px; 
+  border-radius: 8px; 
+  text-decoration: none; 
+  font-weight: bold; 
+  font-family: sans-serif;
+  color: #ffffff8b;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  
+}
+
+.buymeacoffee:hover {
+  opacity: 1;
+  color: #000;
 }
